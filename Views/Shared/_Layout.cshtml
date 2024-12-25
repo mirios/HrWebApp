@@ -1,0 +1,108 @@
+﻿@using HrWebApp.Data
+@using Microsoft.AspNetCore.Identity
+@using Microsoft.EntityFrameworkCore
+@inject SignInManager<AppUser> SignInManager
+@inject UserManager<AppUser> UserManager
+@inject ApplicationDbContext _context
+@{
+    var user = await UserManager.GetUserAsync(User);
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - HrWebApp</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/HrWebApp.styles.css" asp-append-version="true" />
+    <link rel="icon" href="~/lib/img/icon.ico" type="images/x-icon">
+
+</head>
+
+@if (!User.Identity.IsAuthenticated)
+{
+    <script>
+        var url = window.location.href.toString().split("/").pop();
+        var currentUrl = window.location.host;
+        var toURL = "https://" + currentUrl + "/Account/Login";
+        if (url != "Login") {
+            window.location.href = toURL;
+        }
+    </script>
+}
+<body>
+    <header>
+        @if (User.Identity.IsAuthenticated)
+        {
+            Staff staffs = _context.Staffs.Where(o => o.Id == user.StaffId).Include(a => a.Address).FirstOrDefault();
+            <nav class="sidebar-navigation">
+                <ul>
+                    <li>
+                        <a asp-controller="Profile" asp-action="Index">
+                            @if (staffs.Image == null)
+                            {
+                                <img class="item-menu" src="~/lib/img/free-icon-user-icon-12653782.png" />
+                            }
+                            else
+                            {
+                                <img class="log-item-menu" src="@staffs.Image" />
+                            }
+                            <span class="tooltip">Profile</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a asp-controller="Dashboards" asp-action="Index">
+                            <img class="item-menu" src="~/lib/img/free-icon-dashboards-5191354.png" />
+
+                        </a>
+                        <span class="tooltip">Dashboards</span>
+                    </li>
+                    <li>
+                        <a asp-controller="Staff" asp-action="Index">
+                            <img class="item-menu" src="~/lib/img/free-icon-group-icon-12653778.png" />
+                        </a>
+                        <span class="tooltip">Staff</span>
+                    </li>
+                    @if (User.IsInRole("admin"))
+                    {
+                        <li>
+                            <a asp-controller="Statistic" asp-action="Index">
+                                <img class="item-menu" src="~/lib/img/free-icon-statistics-4250912.png" />
+                                <span class="tooltip">Statistic</span>
+                            </a>
+                        </li>
+                    }
+                    <li>
+                        <a asp-controller="Account" asp-action="Logout">
+                            <img asp-controller="Account" asp-action="Logout" class="item-menu" src="~/lib/img/free-icon-power-8509243.png" />
+                        </a>
+                        <span class="tooltip">Log Out</span>
+                    </li>
+
+                </ul>
+            </nav>
+        }
+
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var url = window.location.href.toString().split("/").pop();
+            $(".sidebar-navigation a[href*='" + url + "']")
+                .closest("li")
+                .addClass("selected-item")
+        });
+    </script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

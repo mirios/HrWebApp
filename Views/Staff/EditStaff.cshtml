@@ -1,0 +1,137 @@
+﻿@model Staff
+<div class="login-root">
+    <div class="box-root flex-flex flex-direction--column" style="min-height: 100vh;flex-grow: 1;">
+        <div class="loginbackground box-background--white padding-top--64">
+            <div class="loginbackground-gridContainer">
+                <div class="box-root flex-flex" style="grid-area: top / start / 8 / end;">
+                    <div class="box-root" style="background-image: linear-gradient(white 0%, rgb(247, 250, 252) 33%); flex-grow: 1;">
+                    </div>
+                </div>
+                <div class="box-root flex-flex" style="grid-area: 4 / 2 / auto / 5;">
+                    <div class="box-root box-divider--light-all-2 animationLeftRight tans3s" style="flex-grow: 1;"></div>
+                </div>
+                <div class="box-root flex-flex" style="grid-area: 6 / start / auto / 2;">
+                    <div class="box-root box-background--blue800" style="flex-grow: 1;"></div>
+                </div>
+                <div class="box-root flex-flex" style="grid-area: 7 / start / auto / 4;">
+                    <div class="box-root box-background--blue animationLeftRight" style="flex-grow: 1;"></div>
+                </div>
+                <div class="box-root flex-flex" style="grid-area: 8 / 4 / auto / 6;">
+                    <div class="box-root box-background--gray100 animationLeftRight tans3s" style="flex-grow: 1;"></div>
+                </div>
+                <div class="box-root flex-flex" style="grid-area: 2 / 15 / auto / end;">
+                    <div class="box-root box-background--cyan200 animationRightLeft tans4s" style="flex-grow: 1;"></div>
+                </div>
+                <div class="box-root flex-flex" style="grid-area: 3 / 14 / auto / end;">
+                    <div class="box-root box-background--blue animationRightLeft" style="flex-grow: 1;"></div>
+                </div>
+                <div class="box-root flex-flex" style="grid-area: 4 / 17 / auto / 20;">
+                    <div class="box-root box-background--gray100 animationRightLeft tans4s" style="flex-grow: 1;"></div>
+                </div>
+                <div class="box-root flex-flex" style="grid-area: 5 / 14 / auto / 17;">
+                    <div class="box-root box-divider--light-all-2 animationRightLeft tans3s" style="flex-grow: 1;"></div>
+                </div>
+            </div>
+        </div>
+        <div class="box-root padding-top--24 flex-flex flex-direction--column" style="flex-grow: 1; z-index: 9;">
+            <div class="formbg-outer">
+                <div class="formbg">
+                    <div class="formbg-inner padding-horizontal--48">
+                        <span class="padding-bottom--15">Оновлення даних співробітника</span>
+                        <form id="@Model.Id">
+                            <div class="text-danger"></div>
+                            <div class="input">
+                                <span>
+                                    <input id="FirstName" class="input_field" value="@Model.FirstName" required />
+                                    <label class="input_label">Ім'я</label>
+                                </span>
+                                <span class="empty_div"></span>
+                                <span>
+                                    <input id="LastName" class="input_field" value="@Model.LastName" required />
+                                    <label class="input_label">Прізвище</label>
+                                </span>
+                            </div>
+                            <div class="input">
+                                <input class="input_field_full" disabled />
+                                <label class="input_label">e-mail</label>
+                            </div>
+                            <div class="input">
+                                <span>
+                                    <input id="Password" type="text" class="input_field" disabled />
+                                    <label class="input_label">Пароль</label>
+                                </span>
+                                <span class="empty_div"></span>
+                                <span>
+                                    <input id="ConfirmPassword" class="input_field" disabled />
+                                    <label class="input_label">Повторіть пароль</label>
+                                </span>
+                            </div>
+                            <div class="input">
+                                <span>
+                                    <input id="City" class="input_field" value="@Model.Address.City" required  />
+                                    <label class="input_label">Місто</label>
+                                </span>
+                                <span>
+                                    <input id="ZipCode" type="text" class="poss_index" value="@Model.Address.ZipCode" required  />
+                                    <label class="poss_index_label">Iндекс</label>
+                                </span>
+                                <span>
+                                    <input id="State" class="input_field" value="@Model.Address.State" required />
+                                    <label class="input_label">Область</label>
+                                </span>
+                            </div>
+                            <div class="input">
+                                <input id="Streets" class="input_field_full" value="@Model.Address.Street" required />
+                                <label class="input_label">Вулиця</label>
+                            </div>
+                            <div class="input">
+                                <span>
+                                    <input id="PhoneNumber" class="input_field" value="@Model.PhoneNumber" required />
+                                    <label class="input_label">Номер телефону</label>
+                                </span>
+                                <span>
+                                    <input id="Day" type="text" class="input_field_bd" value="@Model.DateStaff.Day" required />
+                                    <label class="field_bd_label">День</label>
+                                </span>
+                                <span>
+                                    <input id="Mount" type="text" type="text" class="input_field_bd" value="@Model.DateStaff.Month" required />
+                                    <label class="field_bd_label">Місяць</label>
+                                </span>
+                                <span>
+                                    <input id="Year" type="text" type="text" class="input_field_bd" value="@Model.DateStaff.Year" required />
+                                    <label class="field_bd_label">Рік</label>
+                                </span>
+                            </div>
+                            <div class="input">
+                                <span>
+                                    <input id="PassportCode" class="input_field" value="@Model.PassportCode" required />
+                                    <label class="input_label">Серія та номер паспорта</label>
+                                </span>
+                                <span class="empty_div"></span>
+                                <span>
+                                    <input id="TaxpayerCode" class="input_field" value="@Model.TaxpayerCode" required />
+                                    <label class="input_label">Індентифікаційний код</label>
+                                </span>
+                            </div>
+                            <div class="input">
+                                <span>
+                                    <input id="Department" class="input_field" value="@Model.Department" required />
+                                    <label class="input_label">Відділ</label>
+                                </span>
+                                <span class="empty_div"></span>
+                                <span>
+                                    <input id="RoleInDepartment" class="input_field" value="@Model.RoleInDepartment" required />
+                                    <label class="input_label">Посада</label>
+                                </span>
+                            </div>
+                            <div class="field padding-bottom--24">
+                                @* <button id="button_" type="button" class="btn btn-outline-primary btn_table">Видалити</button> *@
+                                <input id="SaveEditStaff" type="button" name="submit" value="Оновити дані">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

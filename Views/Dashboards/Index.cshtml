@@ -1,0 +1,290 @@
+﻿@using HrWebApp.Data
+@using HrWebApp.ViewModels
+@using Microsoft.AspNetCore.Identity
+@using Microsoft.EntityFrameworkCore
+@model VacationViewModel
+@inject SignInManager<AppUser> SignInManager
+@inject UserManager<AppUser> UserManager
+@inject ApplicationDbContext _context
+@{
+    var user = await UserManager.GetUserAsync(User);
+    var today = DateOnly.FromDateTime(DateTime.Now);
+}
+
+<!-- Modal window -->
+<div id="myModal" class="modal">
+
+    <!-- Modal context -->
+    <div class="modal-content ">
+        <span class="close">&times;</span>
+        <form method="post" asp-controller="Dashboards" asp-action="AddVacation">
+            @if (User.Identity.IsAuthenticated)
+            {
+                <input asp-for="UserId" type="text" value="@user.StaffId" hidden>
+            }
+            <div class="row is-table-row startblock">
+                <h3>Перший день відпустки</h3>
+                <div class="col-sm-4 blockdiv">
+                    <label for="inputStartDay" class="form-label">День</label>
+                    <input asp-for="StartDay" type="text" class="form-control" id="inputStartDay" placeholder="День">
+                </div>
+                <div class="col-sm-4 blockdiv">
+                    <label for="inputStarMonth" class="form-label">Місяць</label>
+                    <select asp-for="StartMonth" id="inputStarMonth" class="form-select">
+                        <option>Виберіть місяць</option>
+                        <option value="01">Січень</option>
+                        <option value="02">Лютий</option>
+                        <option value="03">Березень</option>
+                        <option value="04">Квітень</option>
+                        <option value="05">Травень</option>
+                        <option value="06">Червень</option>
+                        <option value="07">Липень</option>
+                        <option value="08">Серпень</option>
+                        <option value="09">Вересень</option>
+                        <option value="10">Жовтень</option>
+                        <option value="11">Листопад</option>
+                        <option value="12">Грудень</option>
+                    </select>
+                </div>
+                <div class="col-sm-4 blockdiv">
+                    <label for="inputYear" class="form-label">Рік</label>
+                    <input asp-for="StartYear" type="text" class="form-control" readonly id="inputYear" value="@today.Year">
+                </div>
+            </div>
+            <div class="row is-table-row startblock">
+                <h3>Останній день відпустки</h3>
+                <div class="col-sm-4 blockdiv">
+                    <label for="inputLastDay" class="form-label">День</label>
+                    <input asp-for="LastDay" type="text" class="form-control" id="inputLastDay" placeholder="День">
+                </div>
+                <div class="col-sm-4 blockdiv">
+                    <label for="inputLastMonth" class="form-label">Місяць</label>
+                    <select asp-for="LastMonth" id="inputLastMonth" class="form-select">
+                        <option>Виберіть місяць</option>
+                        <option value="01">Січень</option>
+                        <option value="02">Лютий</option>
+                        <option value="03">Березень</option>
+                        <option value="04">Квітень</option>
+                        <option value="05">Травень</option>
+                        <option value="06">Червень</option>
+                        <option value="07">Липень</option>
+                        <option value="08">Серпень</option>
+                        <option value="09">Вересень</option>
+                        <option value="10">Жовтень</option>
+                        <option value="11">Листопад</option>
+                        <option value="12">Грудень</option>
+                    </select>
+                </div>
+                <div class="col-sm-4 blockdiv">
+                    <label for="inputYear" class="form-label">Рік</label>
+                    <input asp-for="LastYear" type="text" class="form-control" id="inputYear" readonly value="@today.Year">
+                </div>
+            </div>
+            <div class="row">
+                <button class="btn btn-outline-primary btn-sm" id="continue" type="submit">Віправити запит</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="login-root">
+    <div class="box-root flex-flex flex-direction--column" style="min-height: 100vh;flex-grow: 1;">
+        <div class="loginbackground box-background--white padding-top--64">
+            <div class="loginbackground-gridContainer">
+                <div class="box-root flex-flex" style="grid-area: top / start / 8 / end;">
+                    <div class="box-root" style="background-image: linear-gradient(white 0%, rgb(247, 250, 252) 33%); flex-grow: 1;">
+                    </div>
+                </div>
+                <div class="box-root flex-flex" style="grid-area: 4 / 2 / auto / 5;">
+                    <div class="box-root box-divider--light-all-2 animationLeftRight tans3s" style="flex-grow: 1;"></div>
+                </div>
+                <div class="box-root flex-flex" style="grid-area: 6 / start / auto / 2;">
+                    <div class="box-root box-background--blue800" style="flex-grow: 1;"></div>
+                </div>
+                <div class="box-root flex-flex" style="grid-area: 7 / start / auto / 4;">
+                    <div class="box-root box-background--blue animationLeftRight" style="flex-grow: 1;"></div>
+                </div>
+                <div class="box-root flex-flex" style="grid-area: 8 / 4 / auto / 6;">
+                    <div class="box-root box-background--gray100 animationLeftRight tans3s" style="flex-grow: 1;"></div>
+                </div>
+                <div class="box-root flex-flex" style="grid-area: 2 / 15 / auto / end;">
+                    <div class="box-root box-background--cyan200 animationRightLeft tans4s" style="flex-grow: 1;"></div>
+                </div>
+                <div class="box-root flex-flex" style="grid-area: 3 / 14 / auto / end;">
+                    <div class="box-root box-background--blue animationRightLeft" style="flex-grow: 1;"></div>
+                </div>
+                <div class="box-root flex-flex" style="grid-area: 4 / 17 / auto / 20;">
+                    <div class="box-root box-background--gray100 animationRightLeft tans4s" style="flex-grow: 1;"></div>
+                </div>
+                <div class="box-root flex-flex" style="grid-area: 5 / 14 / auto / 17;">
+                    <div class="box-root box-divider--light-all-2 animationRightLeft tans3s" style="flex-grow: 1;"></div>
+                </div>
+            </div>
+        </div>
+        <div class="box-root padding-top--24 flex-flex flex-direction--column" style="flex-grow: 1; z-index: 9;">
+
+            <h1 class="text-date">@today</h1>
+            @if (User.Identity.IsAuthenticated && User.IsInRole("user"))
+            {
+                <div class="row is-table-row startblock">
+                    <div class="col-sm-4 blockdiv">
+                        <div class="col-12 headerdiv">
+                            <h5>Мій баланс</h5>
+                        </div>
+                        <div class="col-12 colorblock">
+                            <div class="input-group input-group-lg">
+                                @if (User.Identity.IsAuthenticated)
+                                {
+                                    Staff staffs = _context.Staffs.Where(o => o.Id == user.StaffId).FirstOrDefault();
+                                    <h6 class="input-group-text chdiv1" width="100%">Доступно днів відпустки: @staffs.AllDay</h6>
+                                }
+                                <h6 class="input-group-text chdiv1" width="100%">Доступно днів лікарняного: 5</h6>
+                            </div>
+                            <button class="btn-new btn btn-outline-success col-12 view" type="submit">Створити запит</button>
+                        </div>
+                    </div>
+                    <div class="col-sm-4 blockdiv">
+                        <div class="col-12 headerdiv">
+                            <h5>Мої запити</h5>
+                        </div>
+                        <div class="col-12 colorblock">
+                            <div class="input-group input-group-lg heightblock" style="overflow-y: scroll">
+                                @if (User.Identity.IsAuthenticated)
+                                {
+                                    @foreach (var item in ViewBag.staffVac)
+                                    {
+                                        if (user.StaffId == item.StaffId)
+                                        {
+                                            <div class="input-group input-group-lg">
+                                                @if (item.success == null)
+                                                {
+                                                    <span class="input-group-text chdiv" id="inputGroup-sizing-lg">&#8987;</span>
+                                                }
+                                                else if (item.success == true)
+                                                {
+                                                    <span class="input-group-text chdiv" id="inputGroup-sizing-lg">&#9989;</span>
+                                                }
+                                                else if (item.success == false)
+                                                {
+                                                    <span class="input-group-text chdiv" id="inputGroup-sizing-lg">&#10060;</span>
+                                                }
+
+                                                <input value="@item.StartDate - @item.EndDate" disabled type="text" class="form-control chdiv" aria-describedby="inputGroup-sizing-lg">
+                                            </div>
+                                        }
+                                    }
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4 blockdiv">
+                        <div class="col-12 headerdiv">
+                            <h5>Про компанію</h5>
+                        </div>
+                        <div class="col-12 colorblock">
+                            <div class="input-group input-group-lg">
+                                <p class="about-text">
+                                    ФОП «ТВІЙ КОМП’ЮТЕР» є надійним сервісним центром,
+                                    що спеціалізується на ремонті комп'ютерної техніки.
+                                    Компанія надає широкий спектр послуг, включаючи
+                                    діагностику, ремонт та обслуговування персональних
+                                    комп'ютерів, ноутбуків, серверів, а
+                                    також периферійного обладнання.
+                                </p>
+                            </div>
+                            <button disabled class="btn-new btn btn-outline-success col-12" type="submit">Читати більше</button>
+                        </div>
+                    </div>
+                </div>
+            }
+            @if (User.Identity.IsAuthenticated && User.IsInRole("admin"))
+            {
+                <div class="row is-table-row startblock">
+                    <div class="col-sm-8 blockdiv">
+                        <div class="col-12 headerdiv">
+                            <h5>Запити на відпустку</h5>
+                        </div>
+                        <div class="col-12 colorblock">
+                            <div class="input-group input-group-lg heightblock" style="overflow-y: scroll">
+                                @if (User.Identity.IsAuthenticated)
+                                {
+                                    List<Staff> staffs = _context.Staffs.ToList();
+                                    var count = _context.Staffs.Count();
+                                    @foreach (var item in ViewBag.staffVac)
+                                    {
+                                        <form method="post" asp-controller="Dashboards" asp-action="VacationStatus">
+                                            <div class="input-group input-group-lg">
+                                                @foreach (var item1 in staffs)
+                                                {
+                                                    if (item.StaffId == item1.Id)
+                                                    {
+                                                        if (item1.Image == null)
+                                                        {
+                                                            <img src="~/lib/img/free-icon-user-icon-12653782.png" class="vacImg chdiv">
+                                                        } else
+                                                        {
+                                                            <img src="@item1.Image" type="text" class="vacImg chdiv">
+                                                        }
+                                                        <input value="@item1.Email" disabled type="text" class="form-control chdiv" aria-describedby="inputGroup-sizing-lg">
+                                                    } else continue;
+                                                }
+                                                <input value="@item.StartDate - @item.EndDate" disabled type="text" class="form-control chdiv" aria-describedby="inputGroup-sizing-lg">
+                                                @if (item.success == null)
+                                                {
+                                                    <input asp-for="UserId" type="text" value="@item.StaffId" hidden>
+                                                    <span class="input-group-text chdiv" id="inputGroup-sizing-lg">
+                                                        <select asp-for="Verdict" id="inputLastMonth" class="form-select">
+                                                            <option>Виберіть вердикт</option>
+                                                            <option value="1">Схвалити</option>
+                                                            <option value="0">Відхилити</option>
+                                                        </select>
+                                                        <button class="vac-button"><img width="30" height="30" src="~/lib/img/free-icon-paper-airplane-symbol-52116.png"></img></button>
+                                                    </span>
+                                                }
+                                                else if (item.success == true)
+                                                {
+                                                    <span class="input-group-text chdiv" id="inputGroup-sizing-lg">
+                                                        <select disabled id="inputLastMonth" class="form-select">
+                                                            <option>Схвалено</option>
+                                                        </select>
+                                                        <button disabled class="vac-button"><img width="30" height="30" src="~/lib/img/free-icon-paper-airplane-symbol-52116.png"></img></button>
+                                                    </span>
+                                                }
+                                                else if (item.success == false)
+                                                {
+                                                    <span class="input-group-text chdiv" id="inputGroup-sizing-lg">
+                                                        <select disabled id="inputLastMonth" class="form-select">
+                                                            <option>Відхилено</option>
+                                                        </select>
+                                                        <button disabled class="vac-button"><img width="30" height="30" src="~/lib/img/free-icon-paper-airplane-symbol-52116.png"></img></button>
+                                                    </span>
+                                                }
+                                            </div>
+                                        </form>
+                                    }
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4 blockdiv">
+                        <div class="col-12 headerdiv">
+                            <h5>Про компанію</h5>
+                        </div>
+                        <div class="col-12 colorblock">
+                            <div class="input-group input-group-lg">
+                                <p class="about-text">
+                                    ФОП «ТВІЙ КОМП’ЮТЕР» є надійним сервісним центром,
+                                    що спеціалізується на ремонті комп'ютерної техніки.
+                                    Компанія надає широкий спектр послуг, включаючи
+                                    діагностику, ремонт та обслуговування персональних
+                                    комп'ютерів, ноутбуків, серверів, а
+                                    також периферійного обладнання.
+                                </p>
+                            </div>
+                            <button disabled class="btn-new btn btn-outline-success col-12" type="submit">Читати більше</button>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
